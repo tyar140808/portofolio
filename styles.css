@@ -11,6 +11,7 @@ body {
     line-height: 1.7;
     scroll-behavior: smooth;
     background-attachment: fixed;
+    overflow-x: hidden; /* Mencegah layar bisa digeser ke kanan/kiri secara tidak sengaja */
 }
 
 body::before {
@@ -28,12 +29,8 @@ body::before {
 }
 
 @keyframes rain {
-    0% {
-        background-position: 0 0, 0 0;
-    }
-    100% {
-        background-position: 0 100%, 0 100%;
-    }
+    0% { background-position: 0 0, 0 0; }
+    100% { background-position: 0 100%, 0 100%; }
 }
 
 a {
@@ -113,7 +110,6 @@ a {
     overflow: hidden;
     border: 4px solid rgba(122, 209, 255, 0.55);
     box-shadow: 0 18px 40px rgba(30, 75, 160, 0.25), 0 0 30px rgba(200, 230, 255, 0.6);
-    animation: float 3s ease-in-out infinite;
 }
 
 .hero-photo img {
@@ -135,27 +131,14 @@ a {
 }
 
 @keyframes overlayPulse {
-    0% {
-        opacity: 0;
-        transform: scale(1) rotate(0deg);
-    }
-    50% {
-        opacity: 0.6;
-        transform: scale(1.1) rotate(180deg);
-    }
-    100% {
-        opacity: 0;
-        transform: scale(1) rotate(360deg);
-    }
+    0% { opacity: 0; transform: scale(1) rotate(0deg); }
+    50% { opacity: 0.6; transform: scale(1.1) rotate(180deg); }
+    100% { opacity: 0; transform: scale(1) rotate(360deg); }
 }
 
 @keyframes float {
-    0%, 100% {
-        transform: translateY(0);
-    }
-    50% {
-        transform: translateY(-10px);
-    }
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
 }
 
 .hero-copy span {
@@ -230,7 +213,6 @@ a {
     transform: translateY(40px);
     opacity: 0;
     transition: opacity 0.8s ease, transform 0.8s ease;
-    animation: float 3s ease-in-out infinite;
 }
 
 .section.visible {
@@ -264,8 +246,6 @@ h2::after {
     border-radius: 16px;
     background: rgba(8, 15, 30, 0.5);
     border: 1px solid rgba(74, 163, 255, 0.12);
-    box-shadow: none;
-    animation: float 3s ease-in-out infinite;
 }
 
 .profile-box p {
@@ -293,7 +273,6 @@ h2::after {
     border: 1px solid rgba(74, 163, 255, 0.16);
     box-shadow: 0 18px 35px rgba(45, 80, 145, 0.22);
     transition: transform 0.3s ease, border-color 0.3s ease;
-    animation: float 3s ease-in-out infinite;
 }
 
 .skill-card:hover {
@@ -301,15 +280,119 @@ h2::after {
     border-color: rgba(74, 163, 255, 0.4);
 }
 
-.skill-card h3 {
-    margin-bottom: 0.9rem;
+/* =========================================
+   🔥 PERBAIKAN BAGIAN PROYEK SLIDER 🔥
+========================================= */
+
+/* Kontainer Utama Scroll (Slider) */
+#proyek .project-scroller {
+    width: 100%;
+    overflow-x: scroll;
+    overflow-y: hidden;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+    position: relative;
+    padding: 1rem 0; /* Memberi ruang agar shadow/hover card tidak terpotong (tertabrak) */
+}
+
+#proyek .project-scroller::-webkit-scrollbar {
+    display: none;
+}
+
+/* Layout Flex Khusus Slider (Bukan Grid) */
+#proyek .project-grid {
+    display: flex; /* WAJIB FLEX agar memanjang ke samping */
+    gap: 1.5rem;
+    width: max-content; /* Lebar akan menyesuaikan panjang konten hasil kloning */
+    padding: 0 0.5rem;
+}
+
+/* Kartu Proyek di dalam Slider */
+#proyek .project-card {
+    flex: 0 0 300px; /* Lebar fixed untuk PC/HP agar tidak tertabrak */
+    background: rgba(12, 20, 42, 0.95);
+    border: 1px solid rgba(74, 163, 255, 0.16);
+    border-radius: 24px;
+    overflow: hidden;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+    transition: transform 0.3s ease, border-color 0.3s ease;
+    /* Dihilangkan float animation-nya agar geser horizontalnya super mulus dan rapi */
+}
+
+/* =========================================
+   BAGIAN DETAIL PROYEK (Tetap pakai Grid)
+========================================= */
+.project-detail .project-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 1.5rem;
+    margin-top: 1rem;
+}
+
+.project-detail .project-card {
+    background: rgba(12, 20, 42, 0.95);
+    border: 1px solid rgba(74, 163, 255, 0.16);
+    border-radius: 24px;
+    overflow: hidden;
+    box-shadow: 0 18px 35px rgba(0, 0, 0, 0.22);
+    transition: transform 0.3s ease;
+}
+
+/* Efek Hover Universal untuk Card */
+.project-card:hover {
+    transform: translateY(-8px);
+    border-color: rgba(74, 163, 255, 0.6);
+    box-shadow: 0 15px 35px rgba(74, 163, 255, 0.2);
+    cursor: pointer;
+}
+
+.project-card img {
+    width: 100%;
+    height: 220px;
+    object-fit: contain;
+    background: #050b17;
+    display: block;
+}
+
+.project-card div {
+    padding: 1.3rem 1.4rem;
+}
+
+.project-card h3 {
+    margin-bottom: 0.65rem;
     color: #c5deff;
 }
 
-.skill-card p {
+.project-card p {
     color: #d4e2ff;
     line-height: 1.75;
 }
+
+.project-detail {
+    display: none;
+    scroll-margin-top: 120px;
+}
+
+.project-detail:target {
+    display: block;
+}
+
+.detail-header {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+    margin-bottom: 1rem;
+}
+
+.btn-sm {
+    padding: 0.65rem 1rem;
+    font-size: 0.9rem;
+}
+
+/* =========================================
+   GALERI & KONTAK
+========================================= */
 
 .gallery {
     display: grid;
@@ -325,7 +408,6 @@ h2::after {
     cursor: pointer;
     border: 1px solid rgba(255, 255, 255, 0.07);
     transition: transform 0.35s ease;
-    animation: float 3s ease-in-out infinite;
 }
 
 .gallery-item:hover {
@@ -352,7 +434,6 @@ h2::after {
     border: 1px solid rgba(74, 163, 255, 0.14);
     color: #dce8ff;
     box-shadow: 0 0 25px rgba(200, 230, 255, 0.35);
-    animation: float 3s ease-in-out infinite;
 }
 
 .contact-card p {
@@ -376,6 +457,9 @@ footer {
     font-size: 0.95rem;
 }
 
+/* =========================================
+   MODAL
+========================================= */
 .modal {
     display: none;
     position: fixed;
@@ -385,6 +469,7 @@ footer {
     justify-content: center;
     align-items: center;
     padding: 1.5rem;
+    z-index: 9999;
 }
 
 .modal.open {
@@ -427,120 +512,29 @@ footer {
 }
 
 @keyframes popIn {
-    from {
-        transform: translateY(20px);
-        opacity: 0;
-    }
-    to {
-        transform: translateY(0);
-        opacity: 1;
-    }
+    from { transform: translateY(20px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
 }
 
+/* =========================================
+   RESPONSIVE DESIGN
+========================================= */
 @media (max-width: 960px) {
-    .hero-card {
-        grid-template-columns: 1fr;
-    }
-    .hero-photo {
-        margin: 0 auto;
-    }
+    .hero-card { grid-template-columns: 1fr; }
+    .hero-photo { margin: 0 auto; }
 }
 
 @media (max-width: 720px) {
-    .hero-nav {
-        flex-wrap: wrap;
-        gap: 0.9rem;
-    }
-    .hero-card {
-        padding: 1.6rem;
-    }
-    .section {
-        padding: 1.6rem;
-    }
-    .gallery-item img {
-        height: 220px;
-    }
+    .hero-nav { flex-wrap: wrap; gap: 0.9rem; }
+    .hero-card { padding: 1.6rem; }
+    .section { padding: 1.6rem; }
+    .gallery-item img { height: 220px; }
+    #proyek .project-card { flex: 0 0 260px; } /* Ukuran sedikit mengecil di HP */
 }
 
 @media (max-width: 520px) {
-    .hero {
-        padding-top: 1rem;
-    }
-    .hero-copy h1 {
-        font-size: 2.4rem;
-    }
-    .hero-buttons {
-        flex-direction: column;
-        align-items: stretch;
-    }
-    .profile-box {
-        grid-template-columns: 1fr;
-    }
-}
-
-.project-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-    gap: 1.5rem;
-    margin-top: 1rem;
-}
-
-.project-card {
-    background: rgba(12, 20, 42, 0.95);
-    border: 1px solid rgba(74, 163, 255, 0.16);
-    border-radius: 24px;
-    overflow: hidden;
-    box-shadow: 0 18px 35px rgba(0, 0, 0, 0.22);
-    transition: transform 0.3s ease, border-color 0.3s ease;
-    animation: float 3s ease-in-out infinite;
-}
-
-.project-card:hover {
-    transform: translateY(-6px);
-    border-color: rgba(74, 163, 255, 0.4);
-}
-
-.project-card img {
-    width: 100%;
-    height: 220px;
-    object-fit: contain;
-    background: #050b17;
-    display: block;
-}
-
-.project-card div {
-    padding: 1.3rem 1.4rem;
-}
-
-.project-card h3 {
-    margin-bottom: 0.65rem;
-    color: #c5deff;
-}
-
-.project-card p {
-    color: #d4e2ff;
-    line-height: 1.75;
-}
-
-/* 🔥 INI YANG DIPERBAIKI */
-.project-detail {
-    display: none;
-    scroll-margin-top: 120px;
-}
-
-.project-detail:target {
-    display: block;
-}
-
-.detail-header {
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-    flex-wrap: wrap;
-    margin-bottom: 1rem;
-}
-
-.btn-sm {
-    padding: 0.65rem 1rem;
-    font-size: 0.9rem;
+    .hero { padding-top: 1rem; }
+    .hero-copy h1 { font-size: 2.4rem; }
+    .hero-buttons { flex-direction: column; align-items: stretch; }
+    .profile-box { grid-template-columns: 1fr; }
 }
