@@ -10,8 +10,6 @@
         #proyek .project-grid {
             display: flex;
             overflow-x: auto;
-            scroll-snap-type: x mandatory;
-            scroll-behavior: smooth;
             gap: 1.5rem;
             padding-bottom: 1rem;
             
@@ -28,7 +26,7 @@
         #proyek .project-card {
             flex: 0 0 85%; /* Card mengambil 85% lebar layar di HP */
             max-width: 320px; /* Batas maksimal lebar di PC */
-            scroll-snap-align: center; /* Posisi card selalu pas di tengah saat digeser */
+            /* Hapus scroll-snap biar gesernya ga kaku */
         }
     </style>
 </head>
@@ -101,7 +99,7 @@
                 </article>
                 <article class="skill-card">
                     <h3>HTML, CSS, PHP & Flutter</h3>
-                    <p>Membangun antarmuka web dan aplikasi mobile dengan HTML, CSS, PHP serta Flutter.</p>
+                    <p>Membangun antarmuka web dan landing page dengan HTML, CSS, PHP serta Flutter.</p>
                 </article>
             </div>
         </section>
@@ -270,34 +268,39 @@
             }
         });
 
-        // --- TAMBAHAN SCRIPT UNTUK AUTO-SCROLL SLIDER PROYEK ---
+        // --- TAMBAHAN SCRIPT UNTUK JALAN TERUS MENERUS ---
         const projectSlider = document.querySelector('#proyek .project-grid');
-        let autoScrollTimer;
+        let isPaused = false;
+        let animationId;
 
-        function startAutoScroll() {
-            autoScrollTimer = setInterval(() => {
-                // Cek apakah scroll sudah sampai di ujung kanan
-                if (projectSlider.scrollLeft + projectSlider.clientWidth >= projectSlider.scrollWidth - 10) {
-                    projectSlider.scrollLeft = 0; // Kembali ke awal
-                } else {
-                    projectSlider.scrollLeft += projectSlider.clientWidth; // Geser ke kanan
+        function smoothScroll() {
+            if (!isPaused) {
+                // Geser 1 pixel per frame biar mulus
+                projectSlider.scrollLeft += 1; 
+
+                // Kalau udah mentok banget ke kanan, balikin ke kiri
+                if (projectSlider.scrollLeft >= (projectSlider.scrollWidth - projectSlider.clientWidth - 1)) {
+                    projectSlider.scrollLeft = 0;
                 }
-            }, 3000); // Waktu geser otomatis: 3 detik
+            }
+            // Panggil fungsi ini terus menerus (sesuai refresh rate layar)
+            animationId = requestAnimationFrame(smoothScroll);
         }
 
-        function stopAutoScroll() {
-            clearInterval(autoScrollTimer);
-        }
-
-        // Jalankan script slider jika elemennya ada di halaman
         if (projectSlider) {
-            startAutoScroll();
+            // Mulai jalan otomatis
+            smoothScroll();
             
-            // Hentikan otomatisasi kalau di-hover (di PC) atau disentuh (di HP)
-            projectSlider.addEventListener('mouseenter', stopAutoScroll);
-            projectSlider.addEventListener('mouseleave', startAutoScroll);
-            projectSlider.addEventListener('touchstart', stopAutoScroll);
-            projectSlider.addEventListener('touchend', startAutoScroll);
+            // Berhenti otomatis kalau user nyentuh/hover, supaya bisa digeser bebas
+            const pauseScroll = () => { isPaused = true; };
+            const resumeScroll = () => { isPaused = false; };
+
+            projectSlider.addEventListener('mouseenter', pauseScroll);
+            projectSlider.addEventListener('mouseleave', resumeScroll);
+            
+            // Event untuk touchscreen HP
+            projectSlider.addEventListener('touchstart', pauseScroll);
+            projectSlider.addEventListener('touchend', resumeScroll);
         }
     </script>
 </body>
