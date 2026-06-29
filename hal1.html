@@ -7,26 +7,33 @@
     <link rel="stylesheet" href="styles.css">
     
     <style>
-        #proyek .project-grid {
-            display: flex;
-            overflow-x: auto;
-            gap: 1.5rem;
-            padding-bottom: 1rem;
-            
-            /* Sembunyikan scrollbar agar lebih rapi */
-            -ms-overflow-style: none;  /* IE and Edge */
-            scrollbar-width: none;  /* Firefox */
+        /* Kontainer Utama yang Membatasi Pandangan */
+        #proyek .project-scroller {
+            width: 100%;
+            overflow-x: scroll; /* Tetap izinkan user geser */
+            overflow-y: hidden;
+            scrollbar-width: none; /* Sembunyikan scrollbar di Firefox */
+            -ms-overflow-style: none; /* Sembunyikan scrollbar di IE/Edge */
+            position: relative;
         }
 
-        /* Sembunyikan scrollbar untuk Chrome, Safari, dan Opera */
-        #proyek .project-grid::-webkit-scrollbar {
-            display: none; 
+        /* Sembunyikan scrollbar di Chrome/Safari */
+        #proyek .project-scroller::-webkit-scrollbar {
+            display: none;
+        }
+
+        /* Kontainer yang Berjalan */
+        #proyek .project-grid {
+            display: flex;
+            gap: 1.5rem;
+            width: fit-content; /* Lebar otomatis berdasarkan konten */
+            padding-bottom: 1rem;
         }
 
         #proyek .project-card {
             flex: 0 0 85%; /* Card mengambil 85% lebar layar di HP */
             max-width: 320px; /* Batas maksimal lebar di PC */
-            /* Hapus scroll-snap biar gesernya ga kaku */
+            flex-shrink: 0; /* Biar ukurannya ga mengecil */
         }
     </style>
 </head>
@@ -106,38 +113,41 @@
 
         <section id="proyek" class="section reveal">
             <h2>Proyek</h2>
-            <div class="project-grid">
-                <article class="project-card" onclick="openModal('proyek1.jpg')">
-                    <img src="proyek1.jpg" alt="Screenshot Proyek 1">
-                    <div>
-                        <h3>Proyek 1</h3>
-                        <p>Ini hasil tugas saya membuat led dengan wokwi.</p>
-                    </div>
-                </article>
-                <article class="project-card" onclick="openModal('proyek2.jpg')">
-                    <img src="proyek2.jpg" alt="Screenshot Proyek 2">
-                    <div>
-                        <h3>Proyek 2</h3>
-                        <p>Proyek membuat web doaku.</p>
-                        <a href="#proyek2-detail" class="btn btn-secondary"
-                           style="margin-top: 1rem; display: inline-block;"
-                           onclick="event.stopPropagation();">
-                            Lihat Selengkapnya
-                        </a>
-                    </div>
-                </article>
-                <article class="project-card" onclick="openModal('proyek3.jpg')">
-                    <img src="proyek3.jpg" alt="Screenshot Proyek 3">
-                    <div>
-                        <h3>Proyek 3</h3>
-                        <p>Proyek membuat web chocolatos.</p>
-                        <a href="#proyek3-detail" class="btn btn-secondary"
-                           style="margin-top: 1rem; display: inline-block;"
-                           onclick="event.stopPropagation();">
-                            Lihat Selengkapnya
-                        </a>
-                    </div>
-                </article>
+            <div class="project-scroller">
+                <div class="project-grid">
+                    <article class="project-card" onclick="openModal('proyek1.jpg')">
+                        <img src="proyek1.jpg" alt="Screenshot Proyek 1">
+                        <div>
+                            <h3>Proyek 1</h3>
+                            <p>Ini hasil tugas saya membuat led dengan wokwi.</p>
+                        </div>
+                    </article>
+                    <article class="project-card" onclick="openModal('proyek2.jpg')">
+                        <img src="proyek2.jpg" alt="Screenshot Proyek 2">
+                        <div>
+                            <h3>Proyek 2</h3>
+                            <p>Proyek membuat web doaku.</p>
+                            <a href="#proyek2-detail" class="btn btn-secondary"
+                               style="margin-top: 1rem; display: inline-block;"
+                               onclick="event.stopPropagation();">
+                                Lihat Selengkapnya
+                            </a>
+                        </div>
+                    </article>
+                    <article class="project-card" onclick="openModal('proyek3.jpg')">
+                        <img src="proyek3.jpg" alt="Screenshot Proyek 3">
+                        <div>
+                            <h3>Proyek 3</h3>
+                            <p>Proyek membuat web chocolatos.</p>
+                            <a href="#proyek3-detail" class="btn btn-secondary"
+                               style="margin-top: 1rem; display: inline-block;"
+                               onclick="event.stopPropagation();">
+                                Lihat Selengkapnya
+                            </a>
+                        </div>
+                    </article>
+                    <div style="width: 1.5rem; flex-shrink: 0;"></div>
+                </div>
             </div>
         </section>
 
@@ -268,39 +278,63 @@
             }
         });
 
-        // --- TAMBAHAN SCRIPT UNTUK JALAN TERUS MENERUS ---
-        const projectSlider = document.querySelector('#proyek .project-grid');
+        // --- TAMBAHAN SCRIPT UNTUK INFINITE SMOOTH LOOP (Marquee) ---
+        const projectScroller = document.querySelector('#proyek .project-scroller');
+        const projectGrid = document.querySelector('#proyek .project-scroller .project-grid');
         let isPaused = false;
+        let originalWidth;
         let animationId;
+        let speed = 60; // Piksel per detik, ubah ini untuk kecepatannya
+        let lastTime;
 
-        function smoothScroll() {
+        function smoothScrollLoop(currentTime) {
             if (!isPaused) {
-                // Geser 1 pixel per frame biar mulus
-                projectSlider.scrollLeft += 1; 
+                if (!lastTime) lastTime = currentTime;
+                const deltaTime = (currentTime - lastTime) / 1000; // waktu sejak frame terakhir (detik)
+                const distance = speed * deltaTime;
 
-                // Kalau udah mentok banget ke kanan, balikin ke kiri
-                if (projectSlider.scrollLeft >= (projectSlider.scrollWidth - projectSlider.clientWidth - 1)) {
-                    projectSlider.scrollLeft = 0;
+                // Geser posisi scroll secara programmatic
+                projectScroller.scrollLeft += distance;
+
+                // Logika Loop: Jika scroll sudah melewati panjang konten asli
+                if (projectScroller.scrollLeft >= originalWidth) {
+                    // Reset scroll ke awal konten asli dengan sangat cepat (jump mulus)
+                    projectScroller.scrollLeft = 0;
                 }
+                
+                lastTime = currentTime;
+            } else {
+                lastTime = null; // Reset lastTime biar kecepatannya ga loncat pas di-resume
             }
-            // Panggil fungsi ini terus menerus (sesuai refresh rate layar)
-            animationId = requestAnimationFrame(smoothScroll);
+            animationId = requestAnimationFrame(smoothScrollLoop);
         }
 
-        if (projectSlider) {
-            // Mulai jalan otomatis
-            smoothScroll();
-            
-            // Berhenti otomatis kalau user nyentuh/hover, supaya bisa digeser bebas
-            const pauseScroll = () => { isPaused = true; };
-            const resumeScroll = () => { isPaused = false; };
+        // Jalankan script jika elemen ada
+        if (projectScroller && projectGrid) {
+            // 1. Hitung lebar asli dari set proyek asli
+            originalWidth = projectGrid.offsetWidth;
 
-            projectSlider.addEventListener('mouseenter', pauseScroll);
-            projectSlider.addEventListener('mouseleave', resumeScroll);
+            // 2. Kloning konten proyek dan tempelkan di belakangnya
+            const clonedContent = projectGrid.innerHTML;
+            projectGrid.innerHTML += clonedContent; 
+
+            // 3. Mulai loop animasi yang mulus
+            animationId = requestAnimationFrame(smoothScrollLoop);
             
-            // Event untuk touchscreen HP
-            projectSlider.addEventListener('touchstart', pauseScroll);
-            projectSlider.addEventListener('touchend', resumeScroll);
+            // 4. Deteksi Interaksi: Jeda kalau di-touch/hover biar user bisa geser manual
+            const pauseScroll = () => { isPaused = true; };
+            // Beri sedikit jeda waktu sebelum jalan otomatis lagi
+            const resumeScroll = () => { 
+                setTimeout(() => { isPaused = false; }, 300); // 300ms delay
+            };
+
+            // Event untuk PC (kursor)
+            projectScroller.addEventListener('mouseenter', pauseScroll);
+            projectScroller.addEventListener('mouseleave', resumeScroll);
+            
+            // Event untuk HP (layar sentuh)
+            projectScroller.addEventListener('touchstart', pauseScroll);
+            projectScroller.addEventListener('touchend', resumeScroll);
         }
     </script>
 </body>
