@@ -11,7 +11,7 @@ body {
     line-height: 1.7;
     scroll-behavior: smooth;
     background-attachment: fixed;
-    overflow-x: hidden; /* Mencegah layar bisa digeser ke kanan/kiri secara tidak sengaja */
+    overflow-x: hidden;
 }
 
 body::before {
@@ -20,8 +20,8 @@ body::before {
     inset: 0;
     pointer-events: none;
     background-image:
-        linear-gradient(rgba(255,255,255,0.06) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
+        linear-gradient(rgba(255, 255, 255, 0.06) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
     background-size: 2px 24px, 24px 2px;
     opacity: 0.18;
     animation: rain 10s linear infinite;
@@ -29,12 +29,23 @@ body::before {
 }
 
 @keyframes rain {
-    0% { background-position: 0 0, 0 0; }
-    100% { background-position: 0 100%, 0 100%; }
+    0% {
+        background-position: 0 0, 0 0;
+    }
+
+    100% {
+        background-position: 0 100%, 0 100%;
+    }
 }
 
-a {
+a,
+button {
     color: inherit;
+}
+
+button {
+    font-family: inherit;
+    cursor: pointer;
 }
 
 .hero {
@@ -51,7 +62,7 @@ a {
     position: absolute;
     inset: 0;
     background: radial-gradient(circle at 20% 20%, rgba(61, 143, 255, 0.22), transparent 28%),
-                radial-gradient(circle at 80% 10%, rgba(74, 255, 209, 0.12), transparent 22%);
+        radial-gradient(circle at 80% 10%, rgba(74, 255, 209, 0.12), transparent 22%);
     pointer-events: none;
 }
 
@@ -125,20 +136,38 @@ a {
     left: 0;
     width: 100%;
     height: 100%;
-    background: linear-gradient(45deg, rgba(0,0,0,0.8), rgba(255,255,255,0.2));
+    background: linear-gradient(45deg, rgba(0, 0, 0, 0.8), rgba(255, 255, 255, 0.2));
     border-radius: 50%;
     animation: overlayPulse infinite 3s ease-in-out;
 }
 
 @keyframes overlayPulse {
-    0% { opacity: 0; transform: scale(1) rotate(0deg); }
-    50% { opacity: 0.6; transform: scale(1.1) rotate(180deg); }
-    100% { opacity: 0; transform: scale(1) rotate(360deg); }
+    0% {
+        opacity: 0;
+        transform: scale(1) rotate(0deg);
+    }
+
+    50% {
+        opacity: 0.6;
+        transform: scale(1.1) rotate(180deg);
+    }
+
+    100% {
+        opacity: 0;
+        transform: scale(1) rotate(360deg);
+    }
 }
 
 @keyframes float {
-    0%, 100% { transform: translateY(0); }
-    50% { transform: translateY(-10px); }
+
+    0%,
+    100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-10px);
+    }
 }
 
 .hero-copy span {
@@ -178,6 +207,7 @@ a {
     border-radius: 999px;
     text-decoration: none;
     font-weight: 700;
+    border: none;
     transition: transform 0.25s ease, box-shadow 0.25s ease, background 0.25s ease;
 }
 
@@ -281,10 +311,8 @@ h2::after {
 }
 
 /* =========================================
-   🔥 PERBAIKAN BAGIAN PROYEK SLIDER 🔥
+    SLIDER PROYEK
 ========================================= */
-
-/* Kontainer Utama Scroll (Slider) */
 #proyek .project-scroller {
     width: 100%;
     overflow-x: scroll;
@@ -292,36 +320,30 @@ h2::after {
     scrollbar-width: none;
     -ms-overflow-style: none;
     position: relative;
-    padding: 1rem 0; /* Memberi ruang agar shadow/hover card tidak terpotong (tertabrak) */
+    padding: 1rem 0;
 }
 
 #proyek .project-scroller::-webkit-scrollbar {
     display: none;
 }
 
-/* Layout Flex Khusus Slider (Bukan Grid) */
 #proyek .project-grid {
-    display: flex; /* WAJIB FLEX agar memanjang ke samping */
+    display: flex;
     gap: 1.5rem;
-    width: max-content; /* Lebar akan menyesuaikan panjang konten hasil kloning */
+    width: max-content;
     padding: 0 0.5rem;
 }
 
-/* Kartu Proyek di dalam Slider */
 #proyek .project-card {
-    flex: 0 0 300px; /* Lebar fixed untuk PC/HP agar tidak tertabrak */
+    flex: 0 0 300px;
     background: rgba(12, 20, 42, 0.95);
     border: 1px solid rgba(74, 163, 255, 0.16);
     border-radius: 24px;
     overflow: hidden;
     box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
     transition: transform 0.3s ease, border-color 0.3s ease;
-    /* Dihilangkan float animation-nya agar geser horizontalnya super mulus dan rapi */
 }
 
-/* =========================================
-   BAGIAN DETAIL PROYEK (Tetap pakai Grid)
-========================================= */
 .project-detail .project-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
@@ -338,7 +360,6 @@ h2::after {
     transition: transform 0.3s ease;
 }
 
-/* Efek Hover Universal untuk Card */
 .project-card:hover {
     transform: translateY(-8px);
     border-color: rgba(74, 163, 255, 0.6);
@@ -391,9 +412,8 @@ h2::after {
 }
 
 /* =========================================
-   GALERI & KONTAK
+    GALERI & KONTAK
 ========================================= */
-
 .gallery {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
@@ -458,7 +478,7 @@ footer {
 }
 
 /* =========================================
-   MODAL
+    MODAL POPUP
 ========================================= */
 .modal {
     display: none;
@@ -512,29 +532,252 @@ footer {
 }
 
 @keyframes popIn {
-    from { transform: translateY(20px); opacity: 0; }
-    to { transform: translateY(0); opacity: 1; }
+    from {
+        transform: translateY(20px);
+        opacity: 0;
+    }
+
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
 }
 
 /* =========================================
-   RESPONSIVE DESIGN
+   🔥 LAYOUT CV & PRINT PDF 🔥
+========================================= */
+.cv-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+
+.cv-printable-area {
+    background: #0b1528;
+    color: #ffffff;
+    padding: 2.5rem;
+    border-radius: 20px;
+    border: 1px dashed rgba(74, 163, 255, 0.3);
+}
+
+.cv-top-profile {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+}
+
+.cv-avatar {
+    width: 90px;
+    height: 90px;
+    border-radius: 50%;
+    overflow: hidden;
+    border: 3px solid #7ad1ff;
+    flex-shrink: 0;
+}
+
+.cv-avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.cv-title h1 {
+    font-size: clamp(1.5rem, 3vw, 2.2rem);
+    color: #7ad1ff;
+    margin-bottom: 0.2rem;
+}
+
+.cv-subtitle {
+    color: #cbdcff;
+    font-size: 1rem;
+    font-weight: 500;
+}
+
+.cv-divider {
+    border: none;
+    border-top: 2px solid rgba(74, 163, 255, 0.2);
+    margin: 1.5rem 0;
+}
+
+.cv-body-grid {
+    display: grid;
+    grid-template-columns: 1.2fr 0.8fr;
+    gap: 2.5rem;
+}
+
+.cv-col h3 {
+    color: #7ad1ff;
+    margin-bottom: 0.8rem;
+    font-size: 1.2rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    padding-bottom: 0.3rem;
+}
+
+.cv-col p,
+.cv-col ul {
+    margin-bottom: 1.2rem;
+    font-size: 0.95rem;
+    color: #dfe9ff;
+}
+
+.cv-skills-list {
+    padding-left: 1.2rem;
+}
+
+.cv-edu-item {
+    margin-bottom: 1rem;
+}
+
+.cv-edu-item h4 {
+    color: #ffffff;
+    font-size: 1rem;
+}
+
+/* ATURAN PRINT PDF */
+@media print {
+    @page {
+        margin: 0;
+    }
+
+    body *,
+    .hero,
+    .hero-nav,
+    footer,
+    .btn,
+    .section,
+    h2,
+    .cv-header {
+        visibility: hidden;
+    }
+
+    body {
+        background: #ffffff !important;
+        color: #000000 !important;
+    }
+
+    #cv-section,
+    .cv-printable-area,
+    .cv-printable-area * {
+        visibility: visible;
+    }
+
+    #cv-section {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100%;
+        margin: 0;
+        padding: 0;
+        display: block !important;
+        background: transparent !important;
+        box-shadow: none !important;
+        transform: none !important;
+    }
+
+    .cv-printable-area {
+        background: #ffffff !important;
+        color: #000000 !important;
+        border: none !important;
+        padding: 0 !important;
+    }
+
+    .cv-avatar {
+        border: 3px solid #000000 !important;
+    }
+
+    .cv-avatar img {
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+    }
+
+    .cv-title h1,
+    .cv-col h3,
+    .cv-edu-item h4 {
+        color: #000000 !important;
+    }
+
+    .cv-subtitle,
+    .cv-col p,
+    .cv-col ul {
+        color: #222222 !important;
+    }
+
+    .cv-divider {
+        border-top: 2px solid #000000 !important;
+    }
+}
+
+/* =========================================
+    RESPONSIVE DESIGN INTERFACES
 ========================================= */
 @media (max-width: 960px) {
-    .hero-card { grid-template-columns: 1fr; }
-    .hero-photo { margin: 0 auto; }
+    .hero-card {
+        grid-template-columns: 1fr;
+    }
+
+    .hero-photo {
+        margin: 0 auto;
+    }
 }
 
 @media (max-width: 720px) {
-    .hero-nav { flex-wrap: wrap; gap: 0.9rem; }
-    .hero-card { padding: 1.6rem; }
-    .section { padding: 1.6rem; }
-    .gallery-item img { height: 220px; }
-    #proyek .project-card { flex: 0 0 260px; } /* Ukuran sedikit mengecil di HP */
+    .hero-nav {
+        flex-wrap: wrap;
+        gap: 0.9rem;
+    }
+
+    .hero-card {
+        padding: 1.6rem;
+    }
+
+    .section {
+        padding: 1.6rem;
+    }
+
+    .gallery-item img {
+        height: 220px;
+    }
+
+    #proyek .project-card {
+        flex: 0 0 260px;
+    }
+}
+
+@media (max-width: 650px) {
+    .cv-top-profile {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .cv-body-grid {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+    }
 }
 
 @media (max-width: 520px) {
-    .hero { padding-top: 1rem; }
-    .hero-copy h1 { font-size: 2.4rem; }
-    .hero-buttons { flex-direction: column; align-items: stretch; }
-    .profile-box { grid-template-columns: 1fr; }
+    .hero {
+        padding-top: 1rem;
+    }
+
+    .hero-copy h1 {
+        font-size: 2.4rem;
+    }
+
+    .hero-buttons {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .profile-box {
+        grid-template-columns: 1fr;
+    }
+}
+
+#cv-section {
+    opacity: 1;
+    transform: translateY(0);
 }
