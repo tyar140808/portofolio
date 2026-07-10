@@ -1,18 +1,20 @@
 <!DOCTYPE html>
 <html lang="id">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Portfolio - Andrean Agustiar Saputra</title>
     <link rel="stylesheet" href="styles.css">
-
 </head>
+
 <body>
     <header class="hero">
         <nav class="hero-nav">
             <a href="#profil">Profil</a>
             <a href="#tentang">Tentang</a>
             <a href="#keahlian">Keahlian</a>
+            <a href="#proyek">Proyek</a>
             <a href="#galeri">Galeri</a>
             <a href="#kontak">Social Media</a>
         </nav>
@@ -29,6 +31,7 @@
                     <p>Lahir di Bondowoso, 14 Agustus 2008. Senang menggambar tangan, desain, dan membuat aplikasi.</p>
                     <div class="hero-buttons">
                         <a href="#profil" class="btn btn-primary">Lihat Profil</a>
+                        <button onclick="tampilkanCV()" class="btn btn-secondary">Lihat CV</button>
                         <a href="#kontak" class="btn btn-secondary">Hubungi Saya</a>
                     </div>
                 </div>
@@ -56,10 +59,13 @@
         <section id="tentang" class="section reveal">
             <h2>Tentang Saya</h2>
             <p class="about-text">
-                Saya senang membuat desain visual yang rapi dan landing page yang responsif. Saya fokus pada pengalaman pengguna dan estetika visual yang modern.
+                Saya senang membuat desain visual yang rapi dan landing page yang responsif. Saya fokus pada pengalaman
+                pengguna dan estetika visual yang modern.
             </p>
             <p class="about-text" style="margin-top: 1rem;">
-                Resume singkat: saya menguasai menggambar tangan secara tradisional, desain grafis, HTML, CSS, PHP, dan Flutter. Hobi saya berolahraga terutama sepak bola, gym, dan menggambar. Saya juga suka mempelajari alat musik untuk menambah kreativitas.
+                Resume singkat: saya menguasai menggambar tangan secara tradisional, desain grafis, HTML, CSS, PHP, dan
+                Flutter. Hobi saya berolahraga terutama sepak bola, gym, dan menggambar. Saya juga suka mempelajari alat
+                musik untuk menambah kreativitas.
             </p>
         </section>
 
@@ -71,8 +77,9 @@
                     <p>Drawing tangan secara manual, membuat sketsa dan ilustrasi.</p>
                 </article>
                 <article class="skill-card">
-                    <h3>Desain</h3>
-                    <p>Mendesain tampilan visual yang bersih, estetis, dan mudah digunakan.</p>
+                    <h3>Desain & Figma</h3>
+                    <p>Mendesain tampilan visual (UI/UX) yang bersih, estetis, dan mudah digunakan menggunakan Figma
+                        serta aset grafis manual.</p>
                 </article>
                 <article class="skill-card">
                     <h3>HTML, CSS, PHP & Flutter</h3>
@@ -98,8 +105,7 @@
                             <h3>Proyek 2</h3>
                             <p>Proyek membuat web doaku.</p>
                             <a href="#proyek2-detail" class="btn btn-secondary"
-                               style="margin-top: 1rem; display: inline-block;"
-                               onclick="event.stopPropagation();">
+                                style="margin-top: 1rem; display: inline-block;" onclick="event.stopPropagation();">
                                 Lihat Selengkapnya
                             </a>
                         </div>
@@ -110,8 +116,7 @@
                             <h3>Proyek 3</h3>
                             <p>Proyek membuat web chocolatos.</p>
                             <a href="#proyek3-detail" class="btn btn-secondary"
-                               style="margin-top: 1rem; display: inline-block;"
-                               onclick="event.stopPropagation();">
+                                style="margin-top: 1rem; display: inline-block;" onclick="event.stopPropagation();">
                                 Lihat Selengkapnya
                             </a>
                         </div>
@@ -150,6 +155,66 @@
                 <article class="project-card" onclick="openModal('proyek3-b.jpg')">
                     <img src="proyek3-b.jpg" alt="Screenshot Proyek 3B">
                 </article>
+            </div>
+        </section>
+
+        <section id="cv-section" class="section">
+            <div class="cv-header">
+                <h2 style="margin-bottom:0;">Curriculum Vitae (CV)</h2>
+                <button class="btn btn-primary btn-sm" onclick="window.print()">Cetak PDF</button>
+            </div>
+
+            <div class="cv-printable-area">
+                <div class="cv-top-profile">
+                    <div class="cv-avatar">
+                        <img src="foto_profil.jpg" alt="Foto Andrean">
+                    </div>
+                    <div class="cv-title">
+                        <h1>ANDREAN AGUSTIAR SAPUTRA</h1>
+                        <p class="cv-subtitle">Pelajar RPL | UI/UX Designer | Front-End Developer</p>
+                    </div>
+                </div>
+
+                <hr class="cv-divider">
+
+                <div class="cv-body-grid">
+                    <div class="cv-col">
+                        <h3>Profil</h3>
+                        <p>Saya lahir di Bondowoso, Jawa Timur pada tanggal 14 Agustus 2008. Saya seorang pelajar di
+                            SMKN 1 Bondowoso jurusan Rekayasa Perangkat Lunak (RPL) yang memiliki ketertarikan kuat di
+                            bidang desain grafis dan UI/UX.</p>
+
+                        <h3>Keahlian</h3>
+                        <ul class="cv-skills-list">
+                            <li>Figma</li>
+                            <li>HTML, CSS, JavaScript</li>
+                            <li>PHP & Flutter</li>
+                            <li>Desain & Gambar Manual (Sketsa)</li>
+                        </ul>
+
+                        <h3>Hobi</h3>
+                        <p><strong>Menggambar:</strong> Sangat suka menggambar di sela-sela waktu kosong & gitaran.<br>
+                            <strong>Olahraga:</strong> Futsal, Gym, dan Joging (Berlari).
+                        </p>
+                    </div>
+
+                    <div class="cv-col">
+                        <h3>Pendidikan</h3>
+                        <div class="cv-edu-item">
+                            <h4>SMK Negeri 1 Bondowoso</h4>
+                            <p>Jurusan Rekayasa Perangkat Lunak (RPL)</p>
+                        </div>
+                        <div class="cv-edu-item">
+                            <h4>SMP Negeri 2 Bondowoso</h4>
+                            <p>Sekolah Menengah Pertama</p>
+                        </div>
+
+                        <h3>Kontak</h3>
+                        <p>📞 +62 858-0620-2559</p>
+                        <p>✉️ andrean140808@gmail.com</p>
+                        <p>📍 Jl. Jend. Pol. S. Judhodiharjo, Bondowoso</p>
+                    </div>
+                </div>
             </div>
         </section>
 
@@ -192,7 +257,27 @@
     </div>
 
     <script>
-        // --- SCRIPT BAWAAN (Modal, Reveal, Hover) ---
+        // Sembunyikan CV saat halaman selesai dimuat
+        document.addEventListener("DOMContentLoaded", function () {
+            document.getElementById("cv-section").style.display = "none";
+        });
+
+        // Fungsi tombol Lihat CV
+        function tampilkanCV() {
+            const cvSection = document.getElementById("cv-section");
+
+            cvSection.style.display = "block";
+            cvSection.classList.add("visible");
+
+            setTimeout(() => {
+                cvSection.scrollIntoView({
+                    behavior: "smooth",
+                    block: "start"
+                });
+            }, 100);
+        }
+
+        // --- SCRIPT MODAL & REVEAL ---
         function openModal(imageSrc) {
             const modal = document.getElementById('imageModal');
             const modalImage = document.getElementById('modalImage');
@@ -210,7 +295,7 @@
             document.body.style.overflow = 'auto';
         }
 
-        document.addEventListener('keydown', function(event) {
+        document.addEventListener('keydown', function (event) {
             if (event.key === 'Escape') {
                 closeModal();
             }
@@ -225,9 +310,7 @@
                     entry.target.classList.remove('visible');
                 }
             });
-        }, {
-            threshold: 0.15
-        });
+        }, { threshold: 0.15 });
 
         reveals.forEach(el => observer.observe(el));
 
@@ -248,64 +331,46 @@
             }
         });
 
-        // --- TAMBAHAN SCRIPT UNTUK INFINITE SMOOTH LOOP (Marquee) ---
+        // --- MARQUEE SLIDER PROYEK ---
         const projectScroller = document.querySelector('#proyek .project-scroller');
         const projectGrid = document.querySelector('#proyek .project-scroller .project-grid');
         let isPaused = false;
         let originalWidth;
         let animationId;
-        let speed = 60; // Piksel per detik, ubah ini untuk kecepatannya
+        let speed = 60;
         let lastTime;
 
         function smoothScrollLoop(currentTime) {
             if (!isPaused) {
                 if (!lastTime) lastTime = currentTime;
-                const deltaTime = (currentTime - lastTime) / 1000; // waktu sejak frame terakhir (detik)
+                const deltaTime = (currentTime - lastTime) / 1000;
                 const distance = speed * deltaTime;
-
-                // Geser posisi scroll secara programmatic
                 projectScroller.scrollLeft += distance;
-
-                // Logika Loop: Jika scroll sudah melewati panjang konten asli
                 if (projectScroller.scrollLeft >= originalWidth) {
-                    // Reset scroll ke awal konten asli dengan sangat cepat (jump mulus)
                     projectScroller.scrollLeft = 0;
                 }
-                
                 lastTime = currentTime;
             } else {
-                lastTime = null; // Reset lastTime biar kecepatannya ga loncat pas di-resume
+                lastTime = null;
             }
             animationId = requestAnimationFrame(smoothScrollLoop);
         }
 
-        // Jalankan script jika elemen ada
         if (projectScroller && projectGrid) {
-            // 1. Hitung lebar asli dari set proyek asli
             originalWidth = projectGrid.offsetWidth;
-
-            // 2. Kloning konten proyek dan tempelkan di belakangnya
             const clonedContent = projectGrid.innerHTML;
-            projectGrid.innerHTML += clonedContent; 
-
-            // 3. Mulai loop animasi yang mulus
+            projectGrid.innerHTML += clonedContent;
             animationId = requestAnimationFrame(smoothScrollLoop);
-            
-            // 4. Deteksi Interaksi: Jeda kalau di-touch/hover biar user bisa geser manual
-            const pauseScroll = () => { isPaused = true; };
-            // Beri sedikit jeda waktu sebelum jalan otomatis lagi
-            const resumeScroll = () => { 
-                setTimeout(() => { isPaused = false; }, 300); // 300ms delay
-            };
 
-            // Event untuk PC (kursor)
+            const pauseScroll = () => { isPaused = true; };
+            const resumeScroll = () => { setTimeout(() => { isPaused = false; }, 300); };
+
             projectScroller.addEventListener('mouseenter', pauseScroll);
             projectScroller.addEventListener('mouseleave', resumeScroll);
-            
-            // Event untuk HP (layar sentuh)
             projectScroller.addEventListener('touchstart', pauseScroll);
             projectScroller.addEventListener('touchend', resumeScroll);
         }
     </script>
 </body>
+
 </html>
